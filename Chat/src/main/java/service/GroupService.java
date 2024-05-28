@@ -1,14 +1,11 @@
 package service;
 
 import entity.Group;
-import entity.Message;
 import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -42,27 +39,74 @@ public class GroupService {
         else
             throw new IllegalStateException("Es gibt kein groups");
     }
-  /*  @GET
+ @GET
     @Path("all")
-    public List<Group> getAllGroup() {
+    public Collection<Group> getAllGroup() {
 
-        List<User> Group1 = new ArrayList<>();
+        // groupe nur
+     Collection<Group> Group1 = new ArrayList<>();
 
-        User u1 =new User("1","Yassin");
-        User u2 =new User("2","Lukas");
+     Group g1 =new Group("1","Group 1");
+     Group g2 =new Group("2","Group 2");
 
-        UserService.userDb.put(1,u1);
-        UserService.userDb.put(2,u2);
+     groupDb.put(1,g1);
+     groupDb.put(2,g2);
 
-        Group1.add(u1);
-        Group1.add(u2);
+     Group1.add(g1);
+     Group1.add(g2);
 
-        for (ConcurrentMap.Entry<Integer, User> UserEntry : UserService.userDb.entrySet()) {
-            student = studentEntry.getValue();
-            studentlist.add(student);
+     // groupe mit list von users
+     Collection<User> UserL1 = new ArrayList<>();
+
+     User ul3 =new User("3","Tom");
+     User ul4 =new User("4","Hans");
+
+     UserService.userDb.put(3,ul3);
+     UserService.userDb.put(4,ul4);
+
+     UserL1.add(ul3);
+     UserL1.add(ul4);
+
+     Group gU1 =new Group("3","Group 3",UserL1);
+     Group gU2 =new Group("4","Group 4",UserL1);
+
+     groupDb.put(3,gU1);
+     groupDb.put(4,gU2);
+
+     return groupDb.values();
+
+    }
+
+    @GET
+    @Path("{groupid}/user")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Collection<User> getGroupsByUser(@PathParam("groupid") int groupid) {
+        Group group = groupDb.get(groupid);
+
+        if (group == null) {
+            throw new IllegalStateException("Es gibt keine group mit dieser ID");
         }
 
-    }*/
+        return group.getUsers();
+    }
+
+    //TODO noch nicht korrekt??
+    @Path("{groupid}/user/{userid}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public User getGroupsByUserID(@PathParam("groupid") int groupid, @PathParam("userid") int userid) {
+        Group group = groupDb.get(groupid);
+        if (group == null) {
+            throw new IllegalStateException("No group found with this ID");
+        }
+
+        for (User user : group.getUsers()) {
+            if (Integer.parseInt(user.getUserid()) == userid) {
+                return user;
+            }
+        }
+        throw new IllegalStateException("No user found with this ID in the specified group");
+
+    }
 
     @DELETE
     @Path("{groupid}")

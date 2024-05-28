@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +23,7 @@ public class Group {
 
     //TODO mit List<User> ist * von User Richtung! bedeutet diese Groupe hat viel Users
     // das ist die rechte Relation in Diagramm
-    //private List<User> user1;
+
 
     //private User owner;
 
@@ -39,6 +40,13 @@ public class Group {
         this.name = name;
     }
 
+    private Collection<User> user;
+    public Group(String groupid, String name, Collection<User> user) {
+        this.groupid = groupid;
+        this.name = name;
+        this.user = user;
+    }
+
     public String getGroupid() {
         return groupid;
     }
@@ -52,9 +60,9 @@ public class Group {
         this.name = name;
     }
 
-  /*  public void setuser(User user1) {
-        this.user1= (List<User>) user1;
-    }*/
+    public Collection<User> getUsers() {
+        return user;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

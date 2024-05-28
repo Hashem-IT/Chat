@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -40,12 +41,6 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-
-/*    public void setgroup(Group group1) {
-        this.group1= (List<Group>) group1;
-    }*/
-
-
 
     @Override
     public boolean equals(Object o) {

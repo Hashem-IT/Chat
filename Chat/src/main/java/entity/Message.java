@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.Collection;
 import java.util.Date;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -15,8 +16,6 @@ public class Message {
     private String text;
     private Date timestamp;
 
-    //private List<Group> groups;
-
     //private User user;
 
     public Message() {}
@@ -25,6 +24,15 @@ public class Message {
         this.messageid = messageid;
         this.text = text;
         this.timestamp = timestamp;
+    }
+
+    private Collection<Group> groups;
+
+    public Message(Long messageid, String text, Date timestamp, Collection<Group> groups) {
+        this.messageid = messageid;
+        this.text = text;
+        this.timestamp = timestamp;
+        this.groups = groups;
     }
 
     public Long getMessageid() {

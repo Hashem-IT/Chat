@@ -60,8 +60,8 @@ public class UserService {
 
         return userDb.values();
 
-
     }
+
     @DELETE
     @Path("{userid}")
     public User delete(@PathParam("userid") int UserId) {
