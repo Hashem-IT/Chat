@@ -4,6 +4,9 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import jakarta.ws.rs.ext.RuntimeDelegate;
 import org.glassfish.jersey.server.ResourceConfig;
+import service.GroupService;
+import service.MessageService;
+import service.UserService;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -18,9 +21,10 @@ public class Server {
         config.register(ServerExceptionMapper.class);
 
         //TODO*******************
-        //config.register(VorlesungService.class);
+        config.register(MessageService.class);
         //TODO
-        //config.register(DozentService.class);
+        config.register(GroupService.class);
+        config.register(UserService.class);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8081), 0);
         HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(config, HttpHandler.class);
