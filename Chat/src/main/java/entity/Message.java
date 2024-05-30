@@ -16,7 +16,11 @@ public class Message {
     private String text;
     private Date timestamp;
 
-    //private User user;
+    //TODO relation von 1 Message zu viel groups
+    private Collection<Group> groups;
+
+    //TODO relation von 1 Message zu viel user
+    private User user;
 
     public Message() {}
 
@@ -26,13 +30,12 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    private Collection<Group> groups;
-
-    public Message(Long messageid, String text, Date timestamp, Collection<Group> groups) {
+    public Message(Long messageid, String text, Date timestamp, Collection<Group> groups, User user) {
         this.messageid = messageid;
         this.text = text;
         this.timestamp = timestamp;
         this.groups = groups;
+        this.user = user;
     }
 
     public Long getMessageid() {
@@ -53,6 +56,23 @@ public class Message {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public Collection<Group> getGroup() {
+        return groups;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "messageid=" + messageid +
+                ", text='" + text + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

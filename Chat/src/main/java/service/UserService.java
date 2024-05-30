@@ -46,20 +46,7 @@ public class UserService {
     @GET
     @Path("all")
     public Collection<User> getAllUser() {
-
-        Collection<User> User1 = new ArrayList<>();
-
-        User u1 =new User("1","Yassin");
-        User u2 =new User("2","Lukas");
-
-        userDb.put(1,u1);
-        userDb.put(2,u2);
-
-        User1.add(u1);
-        User1.add(u2);
-
         return userDb.values();
-
     }
 
     @DELETE

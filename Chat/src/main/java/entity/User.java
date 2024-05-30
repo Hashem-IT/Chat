@@ -19,15 +19,10 @@ public class User {
     private String userid;
     private String name;
 
-    //TODO mit List<Group> ist * von Group Richtung! bedeutet diese User hat viel Groups
-    // das ist die rechte Relation in Diagramm
-    //private List<Group> group1;
 
     public User() { }
     public User(String userid, String name) {
-        this.userid = userid;
-        this.name = name;
-    }
+        this.userid = userid;   this.name = name;    }
 
     public String getUserid() {
         return userid;
@@ -40,6 +35,13 @@ public class User {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid='" + userid + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override

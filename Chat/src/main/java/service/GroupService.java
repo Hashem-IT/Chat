@@ -39,44 +39,15 @@ public class GroupService {
         else
             throw new IllegalStateException("Es gibt kein groups");
     }
+
  @GET
     @Path("all")
     public Collection<Group> getAllGroup() {
-
-        // groupe nur
-     Collection<Group> Group1 = new ArrayList<>();
-
-     Group g1 =new Group("1","Group 1");
-     Group g2 =new Group("2","Group 2");
-
-     groupDb.put(1,g1);
-     groupDb.put(2,g2);
-
-     Group1.add(g1);
-     Group1.add(g2);
-
-     // groupe mit list von users
-     Collection<User> UserL1 = new ArrayList<>();
-
-     User ul3 =new User("3","Tom");
-     User ul4 =new User("4","Hans");
-
-     UserService.userDb.put(3,ul3);
-     UserService.userDb.put(4,ul4);
-
-     UserL1.add(ul3);
-     UserL1.add(ul4);
-
-     Group gU1 =new Group("3","Group 3",UserL1);
-     Group gU2 =new Group("4","Group 4",UserL1);
-
-     groupDb.put(3,gU1);
-     groupDb.put(4,gU2);
-
-     return groupDb.values();
+        return groupDb.values();
 
     }
 
+    //TODO get alle Users, die in groupid sind
     @GET
     @Path("{groupid}/user")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -90,17 +61,18 @@ public class GroupService {
         return group.getUsers();
     }
 
-    //TODO noch nicht korrekt??
+    //TODO gib mir die User Info , die in groupe steht
+    @GET
     @Path("{groupid}/user/{userid}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public User getGroupsByUserID(@PathParam("groupid") int groupid, @PathParam("userid") int userid) {
+    public User getUserfromGroupid(@PathParam("groupid") int groupid, @PathParam("userid") int userid) {
         Group group = groupDb.get(groupid);
-        if (group == null) {
-            throw new IllegalStateException("No group found with this ID");
-        }
+
+        if (group == null) { throw new IllegalStateException("No group found with this ID");  }
 
         for (User user : group.getUsers()) {
             if (Integer.parseInt(user.getUserid()) == userid) {
+                System.out.println(user.toString());
                 return user;
             }
         }

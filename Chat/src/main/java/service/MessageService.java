@@ -49,9 +49,6 @@ public class MessageService {
     @Path("all")
     public Collection<Message> getAllMessage() throws ParseException {
 
-
-        // Message nur
-        Collection<Message> Message1 = new ArrayList<>();
         // Datum-String
         String date1 = "2001-01-01";
         String date2 = "2002-02-02";
@@ -61,48 +58,76 @@ public class MessageService {
         Date dateS1 = dateFormat.parse(date1);
         Date dateS2 = dateFormat.parse(date2);
 
+        // Users einfügen
+        Collection<User> users1 = new ArrayList<>();
+        Collection<User> users2 = new ArrayList<>();
+        User user1 = new User("1","Yassin");
+        User user2 = new User("2","Lukas");
+        User user3 = new User("3","Tom");
+        User user4 = new User("4","Las");
+        users1.add(user1);
+        users1.add(user2);
+        users2.add(user3);
+        users2.add(user4);
+        UserService.userDb.put(1,user1);
+        UserService.userDb.put(2,user2);
+        UserService.userDb.put(3,user3);
+        UserService.userDb.put(4,user4);
 
-        Message message1 =new Message(1L,"Message Test 1",dateS1);
-        Message message2 =new Message(2L,"Message Test 2",dateS2);
+        // nur Messages einfügen
+        Collection<Message> messages1 = new ArrayList<>();
+        Collection<Message> messages2 = new ArrayList<>();
+
+        Message message1 = new Message(1l,"message 1",dateS1);
+        Message message2 = new Message(2l,"message 2",dateS2);
+        Message message3 = new Message(3l,"message 3",dateS1);
+        Message message4 = new Message(4l,"message 4",dateS2);
 
         messageDb.put(1,message1);
         messageDb.put(2,message2);
-
-        Message1.add(message1);
-        Message1.add(message2);
-
-        // Message mit Group
-        Collection<Group> GroupL = new ArrayList<>();
-        Collection<User> UserL1 = new ArrayList<>();
-        Collection<User> UserL2 = new ArrayList<>();
-
-        User ul1 =new User("5","ters");
-        User ul2 =new User("6","fans");
-        User ul3 =new User("7","mrae");
-        User ul4 =new User("8","torm");
-        UserL1.add(ul1);
-        UserL1.add(ul2);
-        UserL2.add(ul3);
-        UserL2.add(ul4);
-        UserService.userDb.put(5,ul1);
-        UserService.userDb.put(6,ul2);
-        UserService.userDb.put(7,ul3);
-        UserService.userDb.put(8,ul4);
-
-        Group gU1 =new Group("5","Group 5",UserL1);
-        Group gU2 =new Group("6","Group 6",UserL2);
-        GroupService.groupDb.put(5,gU1);
-        GroupService.groupDb.put(6,gU2);
-
-        GroupL.add(gU1);
-        GroupL.add(gU2);
-
-        Message message3 = new Message(3L,"message 3",dateS1,GroupL);
         messageDb.put(3,message3);
+        messageDb.put(4,message4);
+
+        messages1.add(message1);
+        messages1.add(message2);
+        messages2.add(message3);
+        messages2.add(message4);
+
+        // Groups einfügen
+        Collection<Group> groups1 = new ArrayList<>();
+        Collection<Group> groups2 = new ArrayList<>();
+
+        Group group1 = new Group("1","Groupe 1",users1,user1,messages1);
+        Group group2 = new Group("2","Groupe 2",users2,user1,messages2);
+        Group group3 = new Group("1","Groupe 1",users1,user2,messages1);
+        Group group4 = new Group("2","Groupe 2",users2,user2,messages2);
+
+        GroupService.groupDb.put(1,group1);
+        GroupService.groupDb.put(2,group2);
+        GroupService.groupDb.put(3,group3);
+        GroupService.groupDb.put(4,group4);
+
+        groups1.add(group1);
+        groups1.add(group2);
+        groups2.add(group3);
+        groups2.add(group4);
+
+
+        // Messages mit users und Groups einfügen
+        Collection<Message> messages3 = new ArrayList<>();
+
+        Message message5 = new Message(5l,"message 1",dateS1,groups1,user1);
+        Message message6 = new Message(6l,"message 2",dateS2,groups2,user2);
+        messageDb.put(5,message5);
+        messageDb.put(6,message6);
+        messages3.add(message5);
+        messages3.add(message6);
 
         return messageDb.values();
 
     }
+
+
     @DELETE
     @Path("{messageid}")
     public Message delete(@PathParam("messageid") int MessageId) {
