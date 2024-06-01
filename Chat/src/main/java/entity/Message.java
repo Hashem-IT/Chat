@@ -18,8 +18,8 @@ public class Message {
 
     //TODO relation von 1 Message zu viel groups
     private Collection<Group> groups;
-
-    //TODO relation von 1 Message zu viel user
+    @XmlTransient
+    private Group group;
     private User user;
 
     public Message() {}
@@ -57,12 +57,22 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public Collection<Group> getGroup() {
-        return groups;
-    }
+
     public User getUser() {
         return user;
     }
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Collection<Group> getGroups() {
+        return groups;
+    }
+    public void setGroups(Collection<Group> groups) {
+        this.groups = groups;
+    }
+
+    public void setGroup(Group group) { this.group = group;  }
 
     @Override
     public String toString() {

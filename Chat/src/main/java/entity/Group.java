@@ -15,10 +15,13 @@ public class Group {
     @XmlAttribute
     private String groupid;
     private String name;
+    //TODO relation von 1 Group zu viel members
     private Collection<User> members;
-    private User owner;
     //TODO relation von 1 Group zu viel messages
     private Collection<Message> messages;
+    private User owner;
+    @XmlTransient
+    private Message message;
 
     public Group() { }
 
@@ -44,15 +47,36 @@ public class Group {
         this.name = name;
     }
 
+
+    public Collection<Message> getMessage() {
+        return messages;
+    }
+
+    public Collection<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Collection<User> members) {
+        this.members = members;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
     public User getOwner() {
         return owner;
     }
 
-    public Collection<User> getUsers() {
-        return members;
-    }
-    public Collection<Message> getMessage() {
+    public Collection<Message> getMessages() {
         return messages;
+    }
+
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
     }
 
     @Override

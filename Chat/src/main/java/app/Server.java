@@ -22,11 +22,10 @@ public class Server {
 
         //TODO*******************
         config.register(MessageService.class);
-        //TODO
         config.register(GroupService.class);
         config.register(UserService.class);
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(8081), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(9000), 0);
         HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(config, HttpHandler.class);
 
         server.createContext("/restapi", handler);

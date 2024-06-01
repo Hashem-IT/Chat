@@ -1,6 +1,7 @@
 package service;
 
 import entity.Group;
+import entity.Message;
 import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

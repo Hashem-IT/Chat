@@ -32,7 +32,6 @@ public class MessageService {
 
         }else { throw new IllegalStateException("Message Fehler");}
     }
-
     @GET
     @Path("{messageid}")
     public Message getMessageById(@PathParam("messageid") int MessageId) {
@@ -42,12 +41,80 @@ public class MessageService {
         if(MessageId == message.getMessageid())
             return message;
         else
-            throw new IllegalStateException("Es gibt kein student mit diese studentId");
+            throw new IllegalStateException("Es gibt kein messageid mit diese messageid");
     }
-
     @GET
     @Path("all")
-    public Collection<Message> getAllMessage() throws ParseException {
+    public Collection<Message> getAllMessage()  {
+        return messageDb.values();
+    }
+
+    //http:
+    // gib  Message einen Group mehr
+    @PUT
+    @Path("addGroupToMessage/{messageid}/{groupid}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Message addGroupToMessage(@PathParam("messageid") int messageid, @PathParam("groupid") int groupid) {
+        Message message = messageDb.get(messageid);
+        Group group = GroupService.groupDb.get(groupid);
+
+        if (message == null || group == null) {
+            throw new IllegalStateException("Vorlesung oder Dozent nicht gefunden");
+        }
+
+        // Überprüfen, ob die Nachricht bereits Gruppen hat
+        Collection<Group> groups = message.getGroups();
+        if (groups == null) {
+            groups = new ArrayList<>();
+            message.setGroups(groups);
+        }
+
+        // Gruppe zur bestehenden Sammlung hinzufügen
+        groups.add(group);
+
+        //message.setGroup(group);
+        messageDb.put(messageid, message);
+
+
+        return message;
+    }
+
+    //http:
+    // gib  Message einen User nur ein
+    @PUT
+    @Path("addUserToMessage/{messageid}/{userid}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Message addUserToMessage(@PathParam("messageid") int messageid, @PathParam("userid") int userid) {
+        Message message = messageDb.get(messageid);
+        User user = UserService.userDb.get(userid);
+
+        if (message == null || user == null) {
+            throw new IllegalStateException("Vorlesung oder Dozent nicht gefunden");
+        }
+
+        message.setUser(user);
+        messageDb.put(messageid, message);
+
+        return message;
+    }
+
+
+    @DELETE
+    @Path("{messageid}")
+    public Message delete(@PathParam("messageid") int MessageId) {
+
+        Message message = messageDb.remove(MessageId);
+
+        if(messageDb.get(MessageId) == null)
+            throw new IllegalStateException("User gelöscht");
+        return message;
+
+    }
+    @GET
+    @Path("Add")
+    public Collection<Message> getAdd() throws ParseException {
 
         // Datum-String
         String date1 = "2001-01-01";
@@ -124,19 +191,6 @@ public class MessageService {
         messages3.add(message6);
 
         return messageDb.values();
-
-    }
-
-
-    @DELETE
-    @Path("{messageid}")
-    public Message delete(@PathParam("messageid") int MessageId) {
-
-        Message message = messageDb.remove(MessageId);
-
-        if(messageDb.get(MessageId) == null)
-            throw new IllegalStateException("User gelöscht");
-        return message;
 
     }
 

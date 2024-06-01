@@ -1,6 +1,7 @@
 package service;
 
 import entity.Group;
+import entity.Message;
 import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -58,7 +59,7 @@ public class GroupService {
             throw new IllegalStateException("Es gibt keine group mit dieser ID");
         }
 
-        return group.getUsers();
+        return group.getMembers();
     }
 
     //TODO gib mir die User Info , die in groupe steht
@@ -70,7 +71,7 @@ public class GroupService {
 
         if (group == null) { throw new IllegalStateException("No group found with this ID");  }
 
-        for (User user : group.getUsers()) {
+        for (User user : group.getMembers()) {
             if (Integer.parseInt(user.getUserid()) == userid) {
                 System.out.println(user.toString());
                 return user;
@@ -78,6 +79,72 @@ public class GroupService {
         }
         throw new IllegalStateException("No user found with this ID in the specified group");
 
+    }
+
+    //http://localhost:8081/restapi/groups/addUserToGroup/3/3
+    // gib ein Group einen user mehr
+    @PUT
+    @Path("addUserToGroup/{groupid}/{userid}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Group addUserToGroup(@PathParam("groupid") int groupid, @PathParam("userid") int userid) {
+        Group group = groupDb.get(groupid);
+        User user = UserService.userDb.get(userid);
+
+        if (group == null || user == null) {
+            throw new IllegalStateException("Vorlesung oder Dozent nicht gefunden");
+        }
+
+        // Überprüfen, ob die Gruppe bereits Benutzer hat
+        Collection<User> members = group.getMembers();
+        if (members == null) {
+            members = new ArrayList<>();
+            group.setMembers(members);
+        }
+
+        // Benutzer zur bestehenden Sammlung hinzufügen
+        members.add(user);
+
+        // Gruppe in die Datenbank zurücksetzen
+        groupDb.put(groupid, group);
+
+        return group;
+    }
+
+    //http://localhost:8081/restapi/groups/addMessageToGroup/3/4
+    // gib ein Group einen Message mehr
+    //TODO :Caused by: com.sun.istack.SAXException2: Ein Zyklus wird in dem Objektdiagramm ermittelt. Dies verursacht ein endlos tiefes
+    // XML: Group{groupid='10', name='Test 10'} -> Message{messageid=10, text='Test 10', timestamp=Mon Jan 10 01:00:00 CET 2000} -> Group{groupid='10', name='Test 10'}
+    @PUT
+    @Path("addMessageToGroup/{groupid}/{messageid}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Group addMessageToGroup(@PathParam("groupid") int groupid, @PathParam("messageid") int messageid) {
+        Group group = groupDb.get(groupid);
+        Message message = MessageService.messageDb.get(messageid);
+
+        System.out.println(group.toString());
+        System.out.println(message.toString());
+
+        if (group == null || message == null) {
+            throw new IllegalStateException("Vorlesung oder Dozent nicht gefunden");
+        }
+
+
+        // Überprüfen, ob die Gruppe bereits Nachrichten hat
+        Collection<Message> messages = group.getMessages();
+        if (messages == null) {
+            messages = new ArrayList<>();
+            group.setMessages(messages);
+        }
+
+        // Nachricht zur bestehenden Sammlung hinzufügen
+        messages.add(message);
+
+        // Gruppe in die Datenbank zurücksetzen
+        groupDb.put(groupid, group);
+
+        return group;
     }
 
     @DELETE
