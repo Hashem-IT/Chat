@@ -5,8 +5,11 @@ import entity.Message;
 import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -145,6 +148,34 @@ public class GroupService {
         groupDb.put(groupid, group);
 
         return group;
+    }
+
+    // http://localhost:9000/restapi/groups/group/10/messagesZeit?zeit=2001-01-01T00:00:00
+    // bestimmte Zeit in groupe
+    @GET
+    @Path("group/{groupid}/messagesZeit")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Collection<Message> getMessagesForGroupZeit(@PathParam("groupid") int groupid, @QueryParam("zeit") String zeit) {
+        Group group = GroupService.groupDb.get(groupid);
+        if (group == null) {
+            throw new IllegalStateException("Gruppe nicht gefunden");
+        }
+
+        Collection<Message> result = new ArrayList<>();
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date afterDate = dateFormat.parse(zeit);
+
+            for (Message message : group.getMessages()) {
+                if (message.getTimestamp().after(afterDate)) {
+                    result.add(message);
+                }
+            }
+        } catch (Exception e) {
+            throw new WebApplicationException("Ungültiges Datumsformat", 400);
+        }
+
+        return result;
     }
 
     @DELETE

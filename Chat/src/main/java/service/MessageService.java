@@ -100,7 +100,6 @@ public class MessageService {
         return message;
     }
 
-
     @DELETE
     @Path("{messageid}")
     public Message delete(@PathParam("messageid") int MessageId) {
