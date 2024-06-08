@@ -50,7 +50,7 @@ public class GroupService {
         return groupDb.values();
 
     }
-
+/*
     //TODO get alle Users, die in groupid sind
     @GET
     @Path("{groupid}/user")
@@ -63,9 +63,9 @@ public class GroupService {
         }
 
         return group.getMembers();
-    }
+    }*/
 
-    //TODO gib mir die User Info , die in groupe steht
+   /* //TODO gib mir die User Info , die in groupe steht
     @GET
     @Path("{groupid}/user/{userid}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -82,9 +82,9 @@ public class GroupService {
         }
         throw new IllegalStateException("No user found with this ID in the specified group");
 
-    }
+    }*/
 
-    //http://localhost:8081/restapi/groups/addUserToGroup/3/3
+   /* //http://localhost:8081/restapi/groups/addUserToGroup/3/3
     // gib ein Group einen user mehr
     @PUT
     @Path("addUserToGroup/{groupid}/{userid}")
@@ -112,7 +112,7 @@ public class GroupService {
         groupDb.put(groupid, group);
 
         return group;
-    }
+    }*/
 
     //http://localhost:8081/restapi/groups/addMessageToGroup/3/4
     // gib ein Group einen Message mehr

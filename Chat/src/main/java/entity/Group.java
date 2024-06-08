@@ -4,8 +4,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
-
-
 import jakarta.xml.bind.annotation.*;
 
 @XmlRootElement
@@ -16,25 +14,18 @@ public class Group {
     private String groupid;
     private String name;
     //TODO relation von 1 Group zu viel members
-    private Collection<User> members;
+    // nur name von User  Collection<String> wegen <FK>
+    private Collection<String> members;
+    // nur name von User  String
+    private String owner ;
+
     //TODO relation von 1 Group zu viel messages
     private Collection<Message> messages;
-    private User owner;
     @XmlTransient
     private Message message;
 
     public Group() { }
 
-    public Group(String groupid, String name) {
-        this.groupid = groupid;    this.name = name;    }
-
-    public Group(String groupid, String name, Collection<User> members, User owner, Collection<Message> messages) {
-        this.groupid = groupid;
-        this.name = name;
-        this.members = members;
-        this.owner = owner;
-        this.messages = messages;
-    }
 
     public String getGroupid() { return groupid; }
     public void setGroupid(String groupid) {
@@ -52,20 +43,6 @@ public class Group {
         return messages;
     }
 
-    public Collection<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Collection<User> members) {
-        this.members = members;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-    public User getOwner() {
-        return owner;
-    }
 
     public Collection<Message> getMessages() {
         return messages;
@@ -77,6 +54,23 @@ public class Group {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+
+    public Collection<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Collection<String> members) {
+        this.members = members;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @Override

@@ -1,0 +1,7 @@
+Docker:
+    docker run -p 9000:9000 sapringapiopenjdk => bildet ein ducker
+    docker ps => zeiget alle docker
+    7606d2e3bbcb   sapringapiopenjdk   "java -jar Chat.jar"   7 seconds ago   Up 7 seconds   0.0.0.0:9000->9000/tcp
+
+    docker stop 7606d2e3bbcb => stopt Docker und braucht name von docker
+    docker start c561ef435ebd => start socker und braucht name von docker

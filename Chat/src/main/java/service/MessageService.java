@@ -111,6 +111,7 @@ public class MessageService {
         return message;
 
     }
+    /*
     @GET
     @Path("Add")
     public Collection<Message> getAdd() throws ParseException {
@@ -191,6 +192,6 @@ public class MessageService {
 
         return messageDb.values();
 
-    }
+    }*/
 
 }
