@@ -16,25 +16,15 @@ public class Message {
     private String text;
     private Date timestamp;
 
-    //TODO relation von 1 Message zu viel groups
-    private Collection<Group> groups;
-    @XmlTransient
-    private Group group;
-    private User user;
+     private User user;
 
     public Message() {}
 
-    public Message(Long messageid, String text, Date timestamp) {
-        this.messageid = messageid;
-        this.text = text;
-        this.timestamp = timestamp;
-    }
 
-    public Message(Long messageid, String text, Date timestamp, Collection<Group> groups, User user) {
+    public Message(Long messageid, String text, Date timestamp, User user) {
         this.messageid = messageid;
         this.text = text;
         this.timestamp = timestamp;
-        this.groups = groups;
         this.user = user;
     }
 
@@ -65,14 +55,7 @@ public class Message {
         this.user = user;
     }
 
-    public Collection<Group> getGroups() {
-        return groups;
-    }
-    public void setGroups(Collection<Group> groups) {
-        this.groups = groups;
-    }
 
-    public void setGroup(Group group) { this.group = group;  }
 
     @Override
     public String toString() {

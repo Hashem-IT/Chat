@@ -5,6 +5,7 @@ import entity.Message;
 import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,124 +16,67 @@ import java.util.concurrent.ConcurrentMap;
 
 @Path("groups")
 public class GroupService {
-    public static ConcurrentMap<Integer, Group> groupDb = new ConcurrentHashMap<>();
+    public static ConcurrentMap<String, Group> groupDb = new ConcurrentHashMap<>();
 
+    //nicht nötig
     @POST
     @Path("create")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Group Creat(Group group){
-
-        //TODO Math.toIntExact wandelt long zu int?
-        groupDb.put(Integer.parseInt(group.getGroupid()),group);
-        if (group != null){
-            System.out.println("groups eingefügt");
-            return group;
-
-        }else { throw new IllegalStateException("groups Fehler");}
-    }
-
-    @GET
-    @Path("{groupid}")
-    public Group getGroupById(@PathParam("groupid") int GroupId) {
-
-        Group group = groupDb.get(GroupId);
-
-        if(GroupId == Integer.parseInt(group.getGroupid()))
-            return group;
-        else
-            throw new IllegalStateException("Es gibt kein groups");
-    }
-
- @GET
-    @Path("all")
-    public Collection<Group> getAllGroup() {
-        return groupDb.values();
-
-    }
-/*
-    //TODO get alle Users, die in groupid sind
-    @GET
-    @Path("{groupid}/user")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Collection<User> getGroupsByUser(@PathParam("groupid") int groupid) {
-        Group group = groupDb.get(groupid);
-
         if (group == null) {
-            throw new IllegalStateException("Es gibt keine group mit dieser ID");
+            throw new IllegalArgumentException("Group darf nicht null sein");
         }
-
-        return group.getMembers();
-    }*/
-
-   /* //TODO gib mir die User Info , die in groupe steht
-    @GET
-    @Path("{groupid}/user/{userid}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public User getUserfromGroupid(@PathParam("groupid") int groupid, @PathParam("userid") int userid) {
-        Group group = groupDb.get(groupid);
-
-        if (group == null) { throw new IllegalStateException("No group found with this ID");  }
-
-        for (User user : group.getMembers()) {
-            if (Integer.parseInt(user.getUserid()) == userid) {
-                System.out.println(user.toString());
-                return user;
-            }
+        if (group.getGroupid() == null || group.getGroupid().isEmpty()) {
+            throw new IllegalArgumentException("GroupId darf nicht null oder leer sein");
         }
-        throw new IllegalStateException("No user found with this ID in the specified group");
-
-    }*/
-
-   /* //http://localhost:8081/restapi/groups/addUserToGroup/3/3
-    // gib ein Group einen user mehr
-    @PUT
-    @Path("addUserToGroup/{groupid}/{userid}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Group addUserToGroup(@PathParam("groupid") int groupid, @PathParam("userid") int userid) {
-        Group group = groupDb.get(groupid);
-        User user = UserService.userDb.get(userid);
-
-        if (group == null || user == null) {
-            throw new IllegalStateException("Vorlesung oder Dozent nicht gefunden");
+        if (group.getMembers() == null) {
+            group.setMembers(new ArrayList<>());  // Initialisieren der Mitglieder-Liste, wenn sie null ist
         }
-
-        // Überprüfen, ob die Gruppe bereits Benutzer hat
-        Collection<User> members = group.getMembers();
-        if (members == null) {
-            members = new ArrayList<>();
-            group.setMembers(members);
-        }
-
-        // Benutzer zur bestehenden Sammlung hinzufügen
-        members.add(user);
-
-        // Gruppe in die Datenbank zurücksetzen
-        groupDb.put(groupid, group);
-
+        groupDb.put(group.getGroupid(), group);
+        System.out.println("Group eingefügt: " + group);
         return group;
-    }*/
-
-    //http://localhost:8081/restapi/groups/addMessageToGroup/3/4
-    // gib ein Group einen Message mehr
-    //TODO :Caused by: com.sun.istack.SAXException2: Ein Zyklus wird in dem Objektdiagramm ermittelt. Dies verursacht ein endlos tiefes
-    // XML: Group{groupid='10', name='Test 10'} -> Message{messageid=10, text='Test 10', timestamp=Mon Jan 10 01:00:00 CET 2000} -> Group{groupid='10', name='Test 10'}
-    @PUT
-    @Path("addMessageToGroup/{groupid}/{messageid}")
+    }
+    // POST /groups/{groupid}/messages
+    // diese Code POST /groups/X93f83x9Z/messages HTTP/1.1
+    @POST
+    @Path("{groupid}/messages")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Group addMessageToGroup(@PathParam("groupid") int groupid, @PathParam("messageid") int messageid) {
-        Group group = groupDb.get(groupid);
-        Message message = MessageService.messageDb.get(messageid);
-
-        System.out.println(group.toString());
-        System.out.println(message.toString());
-
-        if (group == null || message == null) {
-            throw new IllegalStateException("Vorlesung oder Dozent nicht gefunden");
+    public Group createMessageForGroup(@PathParam("groupid") String groupId, Message message) {
+        Group group = groupDb.get(groupId);
+        if (group == null) {
+            throw new WebApplicationException("Group nicht gefunden", 404);
         }
 
+        if (message == null || message.getMessageid() == null) {
+            throw new IllegalArgumentException("Message und MessageId dürfen nicht null sein");
+        }
+
+        Collection<Message> messages = group.getMessages();
+        if (messages == null) {
+            messages = new ArrayList<>();
+            group.setMessages(messages);
+        }
+
+        messages.add(message);
+        System.out.println("Nachricht zu Gruppe hinzugefügt: " + message);
+
+        // Optionale: Rückgabe der Gruppe mit der neuen Nachricht
+        return group;
+    }
+    //http://localhost:9000/restapi/groups/X93f83x9Z
+    // gib ein Group einen Message mehr
+    // PUT /groups/X93f83x9Z HTTP/1.1
+    @PUT
+    @Path("{groupid}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Group addMessageToGroup(@PathParam("groupid") String groupid, Message message) {
+        Group group = groupDb.get(groupid);
+        if (group == null) {
+            throw new WebApplicationException("Group nicht gefunden", 404);
+        }
 
         // Überprüfen, ob die Gruppe bereits Nachrichten hat
         Collection<Message> messages = group.getMessages();
@@ -144,47 +88,47 @@ public class GroupService {
         // Nachricht zur bestehenden Sammlung hinzufügen
         messages.add(message);
 
-        // Gruppe in die Datenbank zurücksetzen
-        groupDb.put(groupid, group);
-
         return group;
     }
-
-    // http://localhost:9000/restapi/groups/group/10/messagesZeit?zeit=2001-01-01T00:00:00
-    // bestimmte Zeit in groupe
     @GET
-    @Path("group/{groupid}/messagesZeit")
+    @Path("{groupid}")
+    public Group getGroupById(@PathParam("groupid") String groupId) {
+
+        Group group = groupDb.get(groupId);
+
+        if(groupId.equals(group.getGroupid()))
+            return group;
+        else
+            throw new IllegalStateException("Es gibt kein groups");
+    }
+
+ @GET
+    @Path("all")
+    public Collection<Group> getAllGroup() {
+        return groupDb.values();
+
+    }
+
+    @GET
+    @Path("{groupid}/messages")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Collection<Message> getMessagesForGroupZeit(@PathParam("groupid") int groupid, @QueryParam("zeit") String zeit) {
-        Group group = GroupService.groupDb.get(groupid);
+    public Response getMessagesByGroup(@PathParam("groupid") String groupid) {
+        Group group = groupDb.get(groupid);
         if (group == null) {
-            throw new IllegalStateException("Gruppe nicht gefunden");
+            return Response.status(Response.Status.NOT_FOUND).entity("Group nicht gefunden").build();
         }
 
-        Collection<Message> result = new ArrayList<>();
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date afterDate = dateFormat.parse(zeit);
-
-            for (Message message : group.getMessages()) {
-                if (message.getTimestamp().after(afterDate)) {
-                    result.add(message);
-                }
-            }
-        } catch (Exception e) {
-            throw new WebApplicationException("Ungültiges Datumsformat", 400);
-        }
-
-        return result;
+        Collection<Message> messages = group.getMessages();
+        return Response.ok(messages).build();
     }
 
     @DELETE
     @Path("{groupid}")
-    public Group delete(@PathParam("groupid") int GroupId) {
+    public Group delete(@PathParam("groupid") String groupId) {
 
-        Group group = groupDb.remove(GroupId);
+        Group group = groupDb.remove(groupId);
 
-        if(groupDb.get(GroupId) == null)
+        if(groupDb.get(groupId) == null)
             throw new IllegalStateException("User gelöscht");
         return group;
 

@@ -5,3 +5,30 @@ Docker:
 
     docker stop 7606d2e3bbcb => stopt Docker und braucht name von docker
     docker start c561ef435ebd => start socker und braucht name von docker
+
+    iamge bilden
+      //befehl  bau      name    hier
+        docker build -t chat-app .
+
+      // image zu zeigen
+        docker images
+
+      //docker bauen
+      // befehl run      port docker : host chat:continer chat-app: image
+        docker run -d -p 9000:9000 --name=chat chat-app
+
+daten bank:
+
+    docker-compose.yml => erstellen mit details rein
+    application.properties =>  erstellen mit details rein
+    docker-compose up -d    => db starten , mit -d läft docker in hinter, ohne bleibt in Terminal run
+
+
+
+
+
+    Code:
+        soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.
+
+
+

@@ -16,46 +16,34 @@ public class Group {
     //TODO relation von 1 Group zu viel members
     // nur name von User  Collection<String> wegen <FK>
     private Collection<String> members;
-    // nur name von User  String
     private String owner ;
 
     //TODO relation von 1 Group zu viel messages
     private Collection<Message> messages;
-    @XmlTransient
-    private Message message;
-
     public Group() { }
+    public Group(String groupid, String name, String owner, Collection<String> members) {
+        this.groupid = groupid;
+        this.name = name;
+        this.owner = owner;
+        this.members = members;
+    }
 
 
-    public String getGroupid() { return groupid; }
+    public String getGroupid() {
+        return groupid;
+    }
+
     public void setGroupid(String groupid) {
         this.groupid = groupid;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-
-
-    public Collection<Message> getMessage() {
-        return messages;
-    }
-
-
-    public Collection<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Collection<Message> messages) {
-        this.messages = messages;
-    }
-
-    public void setMessage(Message message) {
-        this.message = message;
-    }
-
 
     public Collection<String> getMembers() {
         return members;
@@ -71,6 +59,14 @@ public class Group {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
     }
 
     @Override
