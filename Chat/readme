@@ -29,6 +29,7 @@ daten bank:
 
     Code:
         soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.
+        Test
 
 
 

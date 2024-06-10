@@ -1,0 +1,8 @@
+entity\User.class
+service\GroupService.class
+service\MessageService.class
+entity\Message.class
+service\UserService.class
+entity\Group.class
+app\Server.class
+app\ServerExceptionMapper.class
