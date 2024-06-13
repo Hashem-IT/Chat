@@ -61,6 +61,7 @@ public class GroupService {
 
         messages.add(message);
         System.out.println("Nachricht zu Gruppe hinzugefügt: " + message);
+        UserService.userDb.put(message.getUser().getUserid(),message.getUser());
 
         // Optionale: Rückgabe der Gruppe mit der neuen Nachricht
         return group;

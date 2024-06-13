@@ -6,14 +6,11 @@ MAINTAINER Vorlesung VS
 # RUN führt einen Befehl innerhalb des Images aus
 RUN mkdir /usr/src/vs
 # Kopiert vom Rechner in das Images. Chat-1 von File in Target
-COPY target/Chat.jar /usr/src/myapp/Chat.jar
+COPY target/Chat-1.0-SNAPSHOT-shaded.jar /usr/src/vs/Chat.jar
 # Setzt das Arbeitsverzeichnis innerhalb des Containers
-WORKDIR /usr/src/myapp
-
-ENV JAVA_OPTS="-Duser.timezone=UTC -Dfile.encoding=UTF-8"
-
+WORKDIR /usr/src/vs
 # Ports, die der Container dem Host gegenüber veröffentlicht
 EXPOSE 9000
 # Befehl der nach Start des Containers ausgeführt wird (Startet eigene Anwendung)
-CMD ["java", "-jar", "/usr/src/myapp/Chat.jar"]
+CMD ["java", "-jar", "Chat.jar"]
 #Wird als Befehl zusammengesetzt: java –jar uebung09.jar

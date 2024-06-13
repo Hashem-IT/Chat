@@ -9,13 +9,14 @@ Docker:
     iamge bilden
       //befehl  bau      name    hier
         docker build -t chat-app .
+        1- docker build -t mychat .
 
       // image zu zeigen
         docker images
 
       //docker bauen
-      // befehl run      port docker : host chat:continer chat-app: image
-        docker run -d -p 9000:9000 --name=chat chat-app
+      // befehl run      port docker : host chat:continer(name von mir) chat-app: image(name was in docker build erstellt)
+     2-   docker run -d -p 9000:9000 --name=chat chat-app
 
 daten bank:
 

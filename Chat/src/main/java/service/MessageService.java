@@ -2,14 +2,13 @@ package service;
 
 import entity.Group;
 import entity.Message;
-import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
+import static java.util.Collections.emptyList;
 
 @Path("messages")
 public class MessageService {
@@ -49,7 +48,7 @@ public class MessageService {
                 return group.getMessages();
             }
         }
-        return java.util.Collections.emptyList(); // Leere Liste zurückgeben, wenn kein `groupId` gefunden wird
+        return emptyList(); // Leere Liste zurückgeben, wenn kein `groupId` gefunden wird
     }
 
     // GET /messages/user?forUserId={userId}
@@ -59,15 +58,19 @@ public class MessageService {
     public Collection<Message> getMessagesByUserId(@QueryParam("forUserId") String userId) {
 
         if (userId == null || userId.isEmpty()) {
-            return messageDb.values();
+            return emptyList();
         }
-        User user = UserService.userDb.get(userId);
 
-        Collection<Message> userMessages = messageDb.values().stream()
-                .filter(message -> message.getUser() != null && userId.equals(message.getUser().getUserid()))
-                .collect(Collectors.toList());
+        Collection<Message> result = new ArrayList<>();
+        for (Message message : messageDb.values()) {
+            if (message.getUser() != null && userId.equals(message.getUser().getUserid())) {
+                result.add(message);
+            }
+        }
 
-        return userMessages;
+        System.out.println(result);
+        return result;
+
     }
 
     @DELETE

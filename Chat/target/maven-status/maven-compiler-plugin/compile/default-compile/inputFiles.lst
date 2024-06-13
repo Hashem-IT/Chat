@@ -1,8 +1,8 @@
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\service\MessageService.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\entity\Group.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\service\GroupService.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\app\Server.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\app\ServerExceptionMapper.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\service\UserService.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\entity\Message.java
-H:\OTH\VS\VS24\6-restfull-student\Chat\Chat-new-1\Chat\Chat\src\main\java\entity\User.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\service\MessageService.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\app\Server.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\entity\Message.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\service\GroupService.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\entity\User.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\entity\Group.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\service\UserService.java
+H:\OTH\VS\VS24\6-restfull-student\Chat\Test\Chat\Chat\src\main\java\app\ServerExceptionMapper.java
