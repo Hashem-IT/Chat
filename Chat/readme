@@ -1,7 +1,7 @@
 Docker:
-    docker run -p 9000:9000 sapringapiopenjdk => bildet ein ducker
+    docker run -p 8000:8000 sapringapiopenjdk => bildet ein ducker
     docker ps => zeiget alle docker
-    7606d2e3bbcb   sapringapiopenjdk   "java -jar Chat.jar"   7 seconds ago   Up 7 seconds   0.0.0.0:9000->9000/tcp
+    7606d2e3bbcb   sapringapiopenjdk   "java -jar Chat.jar"   7 seconds ago   Up 7 seconds   0.0.0.0:8000->8000/tcp
 
     docker stop 7606d2e3bbcb => stopt Docker und braucht name von docker
     docker start c561ef435ebd => start socker und braucht name von docker
@@ -16,7 +16,7 @@ Docker:
 
       //docker bauen
       // befehl run      port docker : host chat:continer(name von mir) chat-app: image(name was in docker build erstellt)
-     2-   docker run -d -p 9000:9000 --name=chat chat-app
+     2-   docker run -itd -p 8000:8000 --name chat mychat
 
 daten bank:
 
@@ -31,6 +31,64 @@ daten bank:
     Code:
         soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.
         Test
+
+
+
+Docker Swarm /https://dev.to/adityapratapbh1/setting-up-a-docker-swarm-cluster-and-deploying-containers-a-comprehensive-guide-1gco/
+    Terminal java
+        docker push mychat => möglicherweisehochladen
+        docker tag mychat mychat1 => um ein neues Tag für ein vorhandenes Docker zu erstellen
+
+        test
+            in docker.com in Repositories creates ein (270509/mychat)
+            in Terminal
+                docker login
+                docker tag mychat 270509/mychat
+                docker push 270509/mychat
+
+    play with docker  Terminal
+        docker login
+        docker pull 270509/mychat
+        docker images => zeigt 270509/mychat
+        //            außer:inner(Continer)  name= continer
+        docker run -i -t -d -p 8000:8000 --name=chatservice 270509/mychat
+        => kommt name von image
+        docker logs chatservice  // chatservice noch zu wissen
+        oder : docker logs "und erste vier Buchstapen von CONTAINER ID
+        hostname // um name von host
+        hostname -i // addresse
+        // oben steht portnummer 8000 ,link fopieren und in Rester einfügen
+        http://ip172-18-0-119-cpm9n4q91nsg00dt2qig-8000.direct.labs.play-with-docker.com/restapi/users/all => das zeigt die Methode get all student
+
+        docker stop chatservice
+        docker rm chatservice // zu löschen
+
+        *Schritt3 in tutor erstellen 3 nodes
+        node1
+            // machen node1 als chef
+            docker swarm init --advertise-addr=192.168.0.13 // (adresse von hostname)
+
+        node2
+            docker swarm join --token=asdfghjkl
+            // das kommt nach docker swarm init in node1
+            docker swarm join --token SWMTKN-1-3mj55j0o0t2vjrl407143qkbflxli8glrw6oz365gdwmkw0n7w-cwxdnxjd3xqq54s9t6xp82wj5 192.168.0.13:2377
+         node3
+            // das kommt nach docker swarm init in node1
+            docker swarm join --token SWMTKN-1-3mj55j0o0t2vjrl407143qkbflxli8glrw6oz365gdwmkw0n7w-cwxdnxjd3xqq54s9t6xp82wj5 192.168.0.13:2377
+
+         *Schritt4 in tutor Deploying Services in master
+         master node ist 1 chef
+         //docker service create --name <service-name> --replicas <number-of-replicas> <image-name>
+         replicas = 3 => 1 chef und 2 worker
+         $ docker service create --name=chat-sevr-swarm -p 80:8000 --replicas=3 270509/mychat
+         //danach in node 2 und 3 mit "docker ps" sieht man es
+         //  --replicas=2 mit 2 , nimmt node1 als chef und worker
+         // jetzt in postman
+            http://ip172-18-0-66-cpm9n4q91nsg00dt2qig-80.direct.labs.play-with-docker.com/restapi/users/all  => geht
+         // um zu skalen
+         docker service scale chat-sevr-swarm=5
+
+
 
 
 

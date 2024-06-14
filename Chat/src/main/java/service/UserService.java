@@ -13,11 +13,11 @@ public class UserService {
 
     // Verwenden Sie String für die userId
     //// db.put braucht id und hier ist String  und daten und hier ist User
-    //TODO warum nimmt userid nicht mehr als 10 Zeichnen ?
+
     public static ConcurrentMap<String, User> userDb = new ConcurrentHashMap<>();
 
     @POST
-    @Path("create")
+    //@Path("create") // TODO hier nochmal Erklärung
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public User Creat(User user){

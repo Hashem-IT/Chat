@@ -66,7 +66,7 @@ public class GroupService {
         // Optionale: Rückgabe der Gruppe mit der neuen Nachricht
         return group;
     }
-    //http://localhost:9000/restapi/groups/X93f83x9Z
+    //http://localhost:8000/restapi/groups/X93f83x9Z
     // gib ein Group einen Message mehr
     // PUT /groups/X93f83x9Z HTTP/1.1
     @PUT

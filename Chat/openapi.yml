@@ -4,7 +4,7 @@ info:
   description: API for managing users and groups
   version: 1.0.0
 servers:
-  - url: http://localhost:9000/restapi
+  - url: http://localhost:8000/restapi
 paths:
   /users:
     post:
