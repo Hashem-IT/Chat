@@ -13,12 +13,8 @@ public class Group {
     @XmlAttribute
     private String groupid;
     private String name;
-    //TODO relation von 1 Group zu viel members
-    // nur name von User  Collection<String> wegen <FK>
     private Collection<String> members;
     private String owner ;
-
-    //TODO relation von 1 Group zu viel messages
     private Collection<Message> messages;
     public Group() { }
     public Group(String groupid, String name, String owner, Collection<String> members) {

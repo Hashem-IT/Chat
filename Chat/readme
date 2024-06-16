@@ -1,37 +1,22 @@
-Docker:
-    docker run -p 8000:8000 sapringapiopenjdk => bildet ein ducker
-    docker ps => zeiget alle docker
-    7606d2e3bbcb   sapringapiopenjdk   "java -jar Chat.jar"   7 seconds ago   Up 7 seconds   0.0.0.0:8000->8000/tcp
-
-    docker stop 7606d2e3bbcb => stopt Docker und braucht name von docker
-    docker start c561ef435ebd => start socker und braucht name von docker
-
-    iamge bilden
+daten bank mit Docker :
+     iamge bilden
       //befehl  bau      name    hier
-        docker build -t chat-app .
         1- docker build -t mychat .
-
       // image zu zeigen
         docker images
-
       //docker bauen
       // befehl run      port docker : host chat:continer(name von mir) chat-app: image(name was in docker build erstellt)
      2-   docker run -itd -p 8000:8000 --name chat mychat
 
-daten bank:
+     docker ps
+     docker stop ID => stopt Docker und braucht name von docker
+     docker start ID => start socker und braucht name von docker
+
+daten bank mit Docker Compose:
 
     docker-compose.yml => erstellen mit details rein
     application.properties =>  erstellen mit details rein
     docker-compose up -d    => db starten , mit -d läft docker in hinter, ohne bleibt in Terminal run
-
-
-
-
-
-    Code:
-        soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.
-        Test
-
 
 
 Docker Swarm /https://dev.to/adityapratapbh1/setting-up-a-docker-swarm-cluster-and-deploying-containers-a-comprehensive-guide-1gco/
@@ -89,6 +74,8 @@ Docker Swarm /https://dev.to/adityapratapbh1/setting-up-a-docker-swarm-cluster-a
          docker service scale chat-sevr-swarm=5
 
 
-
+Code:
+        soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.
+        Test
 
 

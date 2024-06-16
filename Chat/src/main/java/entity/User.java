@@ -8,13 +8,11 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User {
-
     @XmlAttribute
     private String userid;
     private String name;
 
     public User() { }
-
 
     public String getUserid() {
         return userid;

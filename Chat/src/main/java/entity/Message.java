@@ -16,16 +16,17 @@ public class Message {
     private String text;
     private Date timestamp;
 
-     private User user;
+    private User sender;
+    private User receiver;
 
     public Message() {}
 
-
-    public Message(Long messageid, String text, Date timestamp, User user) {
+    public Message(Long messageid, String text, Date timestamp, User sender, User receiver) {
         this.messageid = messageid;
         this.text = text;
         this.timestamp = timestamp;
-        this.user = user;
+        this.sender = sender;
+        this.receiver = receiver;
     }
 
     public Long getMessageid() {
@@ -47,15 +48,21 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
+    public User getSender() {
+        return sender;
     }
 
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
 
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
 
     @Override
     public String toString() {
