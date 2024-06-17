@@ -49,38 +49,30 @@ public class MessageService {
         System.out.println("Message eingefügt: " + message);
         return message;
     }
-
+    //TODO muss messages in groupe rein.
     @GET
-    @Path("/group")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Collection<Message> getMessagesByGroupId(@QueryParam("groupId") String groupId) {
+    public Collection<Message> getMessages(@QueryParam("groupId") String groupId, @QueryParam("forUserId") String userId) {
         if (groupId != null && !groupId.isEmpty()) {
+
             Group group = GroupService.groupDb.get(groupId);
             if (group != null) {
                 return group.getMessages();
             }
-        }
-        return emptyList(); // Leere Liste zurückgeben, wenn kein `groupId` gefunden wird
-    }
+        } else if (userId != null && !userId.isEmpty()) {
 
-    @GET
-    @Path("/user")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Collection<Message> getMessagesByUserId(@QueryParam("forUserId") String userId) {
-
-        if (userId == null || userId.isEmpty()) {
-            return emptyList();
-        }
-
-        Collection<Message> result = new ArrayList<>();
-        for (Message message : messageDb.values()) {
-            if (message.getSender() != null && userId.equals(message.getSender().getUserid())) {
-                result.add(message);
+            Collection<Message> result = new ArrayList<>();
+            for (Message message : messageDb.values()) {
+                if ((message.getSender() != null && userId.equals(message.getSender().getUserid())) ||
+                        (message.getReceiver() != null && userId.equals(message.getReceiver().getUserid()))) {
+                    result.add(message);
+                }
             }
+            return result;
         }
-        System.out.println(result);
-        return result;
+        return emptyList();
     }
+
     @GET
     @Path("{messageid}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -103,12 +95,13 @@ public class MessageService {
             throw new IllegalStateException("User gelöscht");
         return message;
     }
-    @GET
+    //TODO was mache ich mit get all
+  /*  @GET
     // bracuht kein path mit messages , weil ist schon von messages gekommen.
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Collection<Message> getAllMessage()  {
         return messageDb.values();
-    }
+    }*/
 
 
 }
