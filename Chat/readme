@@ -164,7 +164,7 @@ Asynchrones Messaging
                         // Since we need to close our consumer, we can use the try-with-resources statement to
                         // create it
                         try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
-                            // Subscribe this consumer to the same topic that we wrote messages to earlier
+                            // Subscribe this consumer to the same topic that we wr1ote messages to earlier
                             consumer.subscribe(Arrays.asList(TOPIC));
                             // run an infinite loop where we consume and print new messages to the topic
                             while (true) {
@@ -181,6 +181,23 @@ Asynchrones Messaging
                     }
 
                 }
+
+
+
+        mein kafka-chat server
+        C:\Users\Yassin\Desktop\OTH\VS\chat\Chat\Chat>docker build --tag chat-kafka .
+        C:\Users\Yassin\Desktop\OTH\VS\chat\Chat\Chat>docker run -itd --name chat-kafka -p 8000:8000 --network kafka-network chat-kafka
+
+
+        kafka broker
+        docker network create -d bridge kafka-network
+        docker run -itd --name kafka-server --hostname kafka-server --network kafka-network -e KAFKA_CFG_NODE_ID=0 -e KAFKA_CFG_PROCESS_ROLES=controller,broker -e KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 -e KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT -e KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-server:9093 -e KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER   bitnami/kafka:latest
+        docker run --network=kafka-network --rm -it bitnami/kafka kafka-topics.sh --create --topic my-topic-1 --bootstrap-server kafka-server:9092
+
+
+        zum Testen:
+            POST http://localhost:8000/restapi/producer/sendsingle
+            in Body => Hallo test von kafak1 23 123
 
 Code:
         soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.

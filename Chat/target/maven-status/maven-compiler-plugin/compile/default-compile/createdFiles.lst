@@ -1,8 +1,10 @@
 entity\User.class
-service\GroupService.class
-service\MessageService.class
+service\ConsumerService.class
+service\OptionB\UserService.class
+service\OptionB\GroupService.class
 entity\Message.class
-service\UserService.class
+service\OptionB\MessageService.class
 entity\Group.class
 app\Server.class
 app\ServerExceptionMapper.class
+service\ProducerService.class
