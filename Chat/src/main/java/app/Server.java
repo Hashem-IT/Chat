@@ -8,13 +8,13 @@ import org.glassfish.jersey.server.ResourceConfig;
 //TODO Option B , 3 Services
 import service.ConsumerService;
 import service.OptionB.MessageService;
-import service.OptionB.UserService;
+/*import service.OptionB.UserService;
 import service.OptionB.GroupService;
-import service.ProducerService;
+import service.ProducerService;*/
 
-/*//TODO Option A , 2 Services
+//TODO Option A , 2 Services
 import service.OptionA.GroupService;
-import service.OptionA.UserService;*/
+import service.OptionA.UserService;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

@@ -204,6 +204,32 @@ Asynchrones Messaging
 Hazelcast
     bei entity muss die klasse "implements Serializable", weil es wird von daten in bytes zum java umwendeln.
 
+    Terminal java
+
+                in Terminal
+                    docker login
+                    docker tag mychat 270509/mychat
+                    docker push 270509/mychat
+                docker login
+                    node1
+                        docker pull hazelcast/hazelcast:5.4.0
+                        // machen node1 als chef
+                        docker swarm init --advertise-addr=192.168.0.23 // (adresse von hostname)
+                        docker network create --driver=overlay --attachable --ip-range=10.0.0.2/24 --subnet=10.0.0.0/8 my-service-net
+                            => kommt irgendname = vl7ies7b5qi9w0d6ki8pzhqlv
+                        docker run --rm -it --hostname hazel-one --name hazel-one  -p 5701:5701 --network my-service-net   -e HZ_NETWORK_PUBLICADDRESS=hazel-one:5701   -e HZ_NETWORK_JOIN_TCP-IP_ENABLED=true -e HZ_NETWORK_JOIN_TCP-IP_REQUIRED-MEMBER=hazel-one  hazelcast/hazelcast
+
+                    node2
+                        docker pull hazelcast/hazelcast:5.4.0
+                        docker swarm join --token SWMTKN-1-39z6ba88mlb98hee4j12kqnwvv61ssnomm4wyffygfmm2tpl9t-e7dmo8mzkfp3bw3o47bn7wj0c 192.168.0.23:2377
+                        docker run --rm -itd --hostname hazel-two --name hazel-two  -p 5701:5701 --network my-service-net  -e HZ_NETWORK_PUBLICADDRESS=hazel-two:5701   -e HZ_NETWORK_JOIN_TCP-IP_ENABLED=true  -e HZ_NETWORK_JOIN_TCP-IP_REQUIRED-MEMBER=hazel-one  hazelcast/hazelcast
+
+                        //wenn ich auf node diese Befehl ,bekomme ich andere port außer 5701, aber es geht ???????????
+                        docker run -i -t -d -p 8000:8000 --name=chatservice 270509/mychat
+
+                        docker pull 270509/mychat
+                        docker images => zeigt 270509/mychat
+
 
 Code:
         soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.

@@ -5,9 +5,12 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlAttribute;
 
+import java.io.Serializable;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User {
+//TODO implements Serializable  wegen hazelcast
+public class User implements Serializable {
     @XmlAttribute
     private String userid;
     private String name;
