@@ -199,6 +199,12 @@ Asynchrones Messaging
             POST http://localhost:8000/restapi/producer/sendsingle
             in Body => Hallo test von kafak1 23 123
 
+
+
+Hazelcast
+    bei entity muss die klasse "implements Serializable", weil es wird von daten in bytes zum java umwendeln.
+
+
 Code:
         soll members in der Group-Klasse eine Sammlung von userId-Strings sein, nicht User-Objekten.
 

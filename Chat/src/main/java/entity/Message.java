@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -10,7 +11,7 @@ import jakarta.xml.bind.annotation.*;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Message {
+public class Message  {
        @XmlAttribute
     private Long messageid;
     private String text;

@@ -27,9 +27,9 @@ public class Server {
         // Register REST-resources (i.e. service classes) with the webserver
         config.register(ServerExceptionMapper.class);
 
-        /*//TODO Option A , 2 Services
+        //TODO Option A , 2 Services
         config.register(GroupService.class);
-        config.register(UserService.class);*/
+        config.register(UserService.class);
 
         /*//TODO Option B , 3 Services
         config.register(GroupService.class);
@@ -37,13 +37,14 @@ public class Server {
         config.register(MessageService.class);*/
 
         // TODO Kafka service
+        /*
         config.register(ProducerService.class);
         //config.register(ConsumerService.class);
         // thread kafka consumer starten
 
         Thread t = new Thread(new ConsumerService());
         t.start();
-
+*/
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(config, HttpHandler.class);

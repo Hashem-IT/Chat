@@ -1,7 +1,11 @@
-/*
+
 package service.OptionA;
 
 
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.map.IMap;
 import entity.User;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +19,19 @@ public class UserService {
 
     // Verwenden Sie String für die userId
     //db.put braucht id und hier ist String ,daten hier ist User
-    public static ConcurrentMap<String, User> userDb = new ConcurrentHashMap<>();
+   // public static ConcurrentMap<String, User> userDb = new ConcurrentHashMap<>();
+
+    //TODO hazelcast
+
+    static IMap<String, User> userDb;
+
+    static {
+        ClientConfig clientConfig = new ClientConfig();
+
+        clientConfig.getNetworkConfig().addAddress("hazel-one");
+        HazelcastInstance client = HazelcastClient.newHazelcastClient(clientConfig);
+        userDb = client.getMap("users");
+    }
 
     @POST
     // bracuht kein path mit user , weil ist schon von users gekommen.
@@ -58,4 +74,4 @@ public class UserService {
         }
     }
 }
-*/
+
