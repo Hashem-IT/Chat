@@ -219,6 +219,8 @@ Hazelcast
                             => kommt irgendname = vl7ies7b5qi9w0d6ki8pzhqlv
                         docker run --rm -it --hostname hazel-one --name hazel-one  -p 5701:5701 --network my-service-net   -e HZ_NETWORK_PUBLICADDRESS=hazel-one:5701   -e HZ_NETWORK_JOIN_TCP-IP_ENABLED=true -e HZ_NETWORK_JOIN_TCP-IP_REQUIRED-MEMBER=hazel-one  hazelcast/hazelcast
 
+                        //TODO bevor docker run : in master : docker service create --name=my-service-net -p 80:8000 --replicas=3 270509/mychat
+                            gib mir blaue Port mit 80 und geht in Rester aber port 5701 geht nicht
                     node2
                         docker pull hazelcast/hazelcast:5.4.0
                         docker swarm join --token SWMTKN-1-39z6ba88mlb98hee4j12kqnwvv61ssnomm4wyffygfmm2tpl9t-e7dmo8mzkfp3bw3o47bn7wj0c 192.168.0.23:2377
